@@ -1,1 +1,2 @@
 # rs-core
+This resource is a base framework that can be implemented into variouse different games, by filling out some blanks, which are all located in one place. This resource got created to be able to create frameworks for upcoming games like HELIX and ROME in advance.
