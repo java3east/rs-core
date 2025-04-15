@@ -16,4 +16,4 @@ CREATE TABLE rsc_character (
     lastname VARCHAR(32) NOT NULL,
     dateofbirth DATE NOT NULL,
     last_played TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP()
-)
+);
