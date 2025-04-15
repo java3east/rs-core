@@ -5,6 +5,7 @@ server = server or {}
 
 ---@class server.player
 ---@field player vplayer
+---@field _cache table<string, any>
 server.player = server.player or {}
 server.player.__index = server.player
 
@@ -17,6 +18,18 @@ local players = {}
 local function pack(player)
     player.getIdentifiers = server.player.getIdentifiers
     player.primaryIdentifier = server.player.primaryIdentifier
+end
+
+---@param player server.player
+---@param func fun() : any
+---@param name string
+local function getOrLoad(player, func, name)
+    local obj = player._cache[name]
+    if obj == nil then
+        obj = func()
+        player._cache[name] = obj
+    end
+    return obj
 end
 
 ---Returns a map of all online players
@@ -42,12 +55,16 @@ end
 ---@nodiscard
 ---@return string[] identifiers the players identifiers
 function server.player:getIdentifiers()
-    return server.adapter.player.getIdentifiers(self.player)
+    return getOrLoad(self, function()
+        return server.adapter.player.getIdentifiers(self.player)
+    end, "identifiers")
 end
 
 ---Returns the players primary identifier
 ---@nodiscard
 ---@return string identifier the players primary identifier
 function server.player:primaryIdentifier()
-    return server.adapter.player.getIdentifier(self.player)
+    return getOrLoad(self, function()
+        return server.adapter.player.getIdentifier(self.player)
+    end, "identifier")
 end
