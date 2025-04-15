@@ -20,9 +20,11 @@ local function pack(player)
     player.primaryIdentifier = server.player.primaryIdentifier
 end
 
+---@nodiscard
 ---@param player server.player
 ---@param func fun() : any
 ---@param name string
+---@return any
 local function getOrLoad(player, func, name)
     local obj = player._cache[name]
     if obj == nil then
