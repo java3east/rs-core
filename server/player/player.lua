@@ -17,7 +17,6 @@ function server.player.getAll()
 end
 
 ---Creates a new player object.
----@nodiscard
 ---@param player vplayer
 ---@return server.player
 function server.player:new(player)
