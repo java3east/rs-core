@@ -45,7 +45,7 @@ end
 ---@return boolean exists if the player exists
 local function load(player)
     local identifier = player:primaryIdentifier()
-    local results = server.adapter.database.select("SELECT * FROM players WHERE identifier = ?", {identifier})
+    local results = server.adapter.database.select("SELECT * FROM rsc_players WHERE identifier = ?", {identifier})
     if #results < 1 then return false end
     local result = results[1]
     player._data["group"] = result.group
@@ -85,7 +85,7 @@ function server.player.saveAll()
         table.insert(data, { identifier, group, group })
     end
 
-    server.adapter.database.prepare("INSERT INTO players (identifier, group) VALUES (?, ?) ON DUPLICATE KEY UPDATE group = ?", data)
+    server.adapter.database.prepare("INSERT INTO rsc_players (identifier, group) VALUES (?, ?) ON DUPLICATE KEY UPDATE group = ?", data)
 end
 
 ---Creates a new player object.
