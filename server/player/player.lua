@@ -5,7 +5,7 @@ server = server or {}
 
 ---@class server.player
 ---@field player vplayer
----@field group string
+---@field _data table<string, any>
 ---@field _cache table<string, any>
 server.player = server.player or {}
 server.player.__index = server.player
@@ -45,10 +45,10 @@ end
 ---@return boolean exists if the player exists
 local function load(player)
     local identifier = player:primaryIdentifier()
-    local results = server.adapter.database.select("SELECT * FROM players WHERE identifier = ?", identifier)
+    local results = server.adapter.database.select("SELECT * FROM players WHERE identifier = ?", {identifier})
     if #results < 1 then return false end
     local result = results[1]
-    player.group = result.group
+    player._data["group"] = result.group
     return true
 end
 
@@ -75,6 +75,19 @@ function server.player.getByIdentifier(identifier)
     return byIdentifier[identifier]
 end
 
+---Saves all currently saved players
+function server.player.saveAll()
+    local data = {}
+
+    for _, player in pairs(players) do
+        local identifier = player:primaryIdentifier()
+        local group = player:getGroup()
+        table.insert(data, { identifier, group, group })
+    end
+
+    server.adapter.database.prepare("INSERT INTO players (identifier, group) VALUES (?, ?) ON DUPLICATE KEY UPDATE group = ?", data)
+end
+
 ---Creates a new player object.
 ---@param player vplayer
 ---@return server.player
@@ -82,7 +95,8 @@ function server.player:new(player)
     local obj = {}
     setmetatable(obj, self)
     obj.player = player
-    obj.group = "user"
+    obj._data = {}
+    obj._data["group"] = "user"
     obj._cache = {}
     obj._cache["isNew"] = load(obj)
     pack(obj)
@@ -108,11 +122,18 @@ function server.player:primaryIdentifier()
     end, "identifier")
 end
 
+
 ---Returns the group name of this player
 ---@nodiscard
 ---@return string group the group name
 function server.player:getGroup()
-    return self.group
+    return self._data["group"]
+end
+
+---Sets the group of this player
+---@param group string the group name
+function server.player:setGroup(group)
+    self._data["group"] = group
 end
 
 ---Returns wheather or not this player is new
