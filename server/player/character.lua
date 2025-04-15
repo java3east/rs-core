@@ -50,15 +50,15 @@ end
 ---@param player server.player the player to load the characters for
 ---@return server.player.character[] characters the loaded characters
 function server.player.character.loadForPlayer(player)
-    local characters = {}
+    local chars = {}
 
     local results = server.adapter.database.select("SELECT * FROM rsc_characters WHERE identifier = ?", {player:primaryIdentifier()})
     for _, result in ipairs(results) do
         local character = server.player.character:new(result.citizenId)
-        table.insert(characters, character)
+        table.insert(chars, character)
     end
 
-    return characters
+    return chars
 end
 
 ---Returns the character with the given citizen id
