@@ -12,6 +12,9 @@ server.player.__index = server.player
 ---@type table<vplayer, server.player> a list of all online players
 local players = {}
 
+---@type table<string, server.player> a list of all players by their identifier
+local byIdentifier = {}
+
 ---adds functions to the object it self to avoid problems with other
 ---resources
 ---@param player server.player
@@ -39,6 +42,22 @@ end
 ---@return table<vplayer, server.player>
 function server.player.getAll()
     return players
+end
+
+---Returns the player object for the given vplayer
+---@nodiscard
+---@param player vplayer the vplayer to load the player for
+---@return server.player? player the player object
+function server.player.get(player)
+    return players[player]
+end
+
+---Returns a player object by their identifier
+---@nodiscard
+---@param identifier string the identifier of the player to get
+---@return server.player? player 
+function server.player.getByIdentifier(identifier)
+    return byIdentifier[identifier]
 end
 
 ---Creates a new player object.
