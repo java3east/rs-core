@@ -10,7 +10,7 @@ CREATE TABLE rsc_players (
 
 /* a players character */
 CREATE TABLE rsc_character (
-    citizenid VARCHAR(16) NOT NULL PRIMARY KEY,
+    citizenid VARCHAR(8) NOT NULL PRIMARY KEY,
     owned_by VARCHAR(255) NOT NULL REFERENCES rsc_players(identifier),
     firstname VARCHAR(32) NOT NULL,
     lastname VARCHAR(32) NOT NULL,
