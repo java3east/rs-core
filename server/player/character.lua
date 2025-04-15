@@ -23,7 +23,7 @@ local function generateCitizenId()
             local randomIndex = math.random(1, #chars)
             citizenId = citizenId .. chars:sub(randomIndex, randomIndex)
         end
-    until server.adapter.database.select("SELECT * FROM rsc_characters WHERE citizenId = ?", {citizenId}) == 0
+    until #server.adapter.database.select("SELECT * FROM rsc_characters WHERE citizenId = ?", {citizenId}) == 0
 
     return citizenId
 end
