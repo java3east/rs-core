@@ -5,6 +5,7 @@ server = server or {}
 
 ---@class server.player
 ---@field player vplayer
+---@field group string
 ---@field _cache table<string, any>
 server.player = server.player or {}
 server.player.__index = server.player
@@ -21,6 +22,8 @@ local byIdentifier = {}
 local function pack(player)
     player.getIdentifiers = server.player.getIdentifiers
     player.primaryIdentifier = server.player.primaryIdentifier
+    player.getGroup = server.player.getGroup
+    player.isNew = server.player.isNew
 end
 
 ---@nodiscard
@@ -35,6 +38,18 @@ local function getOrLoad(player, func, name)
         player._cache[name] = obj
     end
     return obj
+end
+
+---Loads the given player from the database
+---@param player server.player
+---@return boolean exists if the player exists
+local function load(player)
+    local identifier = player:primaryIdentifier()
+    local results = server.adapter.database.select("SELECT * FROM players WHERE identifier = ?", identifier)
+    if #results < 1 then return false end
+    local result = results[1]
+    player.group = result.group
+    return true
 end
 
 ---Returns a map of all online players
@@ -67,6 +82,9 @@ function server.player:new(player)
     local obj = {}
     setmetatable(obj, self)
     obj.player = player
+    obj.group = "user"
+    obj._cache = {}
+    obj._cache["isNew"] = load(obj)
     pack(obj)
     players[player] = obj
     return obj
@@ -88,4 +106,18 @@ function server.player:primaryIdentifier()
     return getOrLoad(self, function()
         return server.adapter.player.getIdentifier(self.player)
     end, "identifier")
+end
+
+---Returns the group name of this player
+---@nodiscard
+---@return string group the group name
+function server.player:getGroup()
+    return self.group
+end
+
+---Returns wheather or not this player is new
+---@nodiscard
+---@return boolean isNew
+function server.player:isNew()
+    return self._cache["isNew"]
 end
