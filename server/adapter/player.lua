@@ -14,3 +14,11 @@ server.adapter.player = {}
 function server.adapter.player.getIdentifiers(player)
     return {}
 end
+
+---Returns the primary identifier for the player
+---@nodiscard
+---@param player vplayer the player to get the identifier for
+---@return string identifier the primary identifier
+function server.adapter.player.getIdentifier(player)
+    return ""
+end

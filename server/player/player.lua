@@ -1,3 +1,5 @@
+require("adapter/player.lua")
+
 ---@class server
 server = server or {}
 
@@ -8,6 +10,14 @@ server.player.__index = server.player
 
 ---@type table<vplayer, server.player> a list of all online players
 local players = {}
+
+---adds functions to the object it self to avoid problems with other
+---resources
+---@param player server.player
+local function pack(player)
+    player.getIdentifiers = server.player.getIdentifiers
+    player.primaryIdentifier = server.player.primaryIdentifier
+end
 
 ---Returns a map of all online players
 ---@nodiscard
@@ -23,7 +33,7 @@ function server.player:new(player)
     local obj = {}
     setmetatable(obj, self)
     obj.player = player
-    obj:pack()
+    pack(obj)
     players[player] = obj
     return obj
 end
@@ -35,7 +45,9 @@ function server.player:getIdentifiers()
     return server.adapter.player.getIdentifiers(self.player)
 end
 
----Required for outside access to functions of the parent object
-function server.player:pack()
-    self.getIdentifiers = server.player.getIdentifiers
+---Returns the players primary identifier
+---@nodiscard
+---@return string identifier the players primary identifier
+function server.player:primaryIdentifier()
+    return server.adapter.player.getIdentifier(self.player)
 end
