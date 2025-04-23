@@ -1,8 +1,14 @@
 ---@diagnostic disable-next-line: undefined-global
-require = Package.Require()
+require = function(path) end
 
-require("adapter/events.lua")
-require("player/player.lua")
+require("server.adapter.database")
+require("server.adapter.events")
+require("server.adapter.net")
+require("server.adapter.player")
+require("server.adapter.export")
+require("server.core")
+require("server.player.player")
+require("server.player.character")
 
 server.adapter.events.onJoin(function (player)
     server.player:new(player)
