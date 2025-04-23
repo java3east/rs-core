@@ -12,6 +12,6 @@ function server.core.getPlayer(vPlayer)
     return server.player.get(vPlayer)
 end
 
-server.adapter.export.export("getCore", function()
+shared.adapter.export.export("getCore", function()
     return server.core
 end)
