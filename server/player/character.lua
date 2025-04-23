@@ -20,15 +20,10 @@ local function pack(character)
 end
 
 local function generateCitizenId()
-    local chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
     local citizenId = ""
 
     repeat
-        citizenId = ""
-        for i = 1, 8 do
-            local randomIndex = math.random(1, #chars)
-            citizenId = citizenId .. chars:sub(randomIndex, randomIndex)
-        end
+        citizenId = shared.string.random(8)
     until #server.adapter.database.select("SELECT * FROM rsc_characters WHERE citizenId = ?", {citizenId}) == 0
 
     return citizenId
