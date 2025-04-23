@@ -24,6 +24,7 @@ local function pack(player)
     player.primaryIdentifier = server.player.primaryIdentifier
     player.getGroup = server.player.getGroup
     player.isNew = server.player.isNew
+    player.createCharacter = server.player.createCharacter
 end
 
 ---@nodiscard
@@ -141,4 +142,12 @@ end
 ---@return boolean isNew
 function server.player:isNew()
     return self._cache["isNew"]
+end
+
+---Creates and returns a new character for this player
+---@return server.player.character character the new character
+function server.player:createCharacter()
+    local character = server.player.character:new()
+    character._data["owned_by"] = self:primaryIdentifier()
+    return character
 end
