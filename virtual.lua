@@ -1,4 +1,4 @@
----Virtual (fake) types, just the better identify variables
+---Virtual (fake) types, just to better identify variables
 ---@meta virtual
 
 ---@class vplayer : any
