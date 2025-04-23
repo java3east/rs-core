@@ -18,3 +18,8 @@ function server.adapter.database.select(query, data) return {} end
 ---@param query string the query to run
 ---@param data table<table<any>> the data to bind to the query
 function server.adapter.database.prepare(query, data) return {} end
+
+---Runns a raw query on the database
+---@param query string the query to run
+---@param data table<string, any> the data to bind to the query
+function server.adapter.database.execute(query, data) end
