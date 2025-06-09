@@ -1,1 +1,1 @@
-RFX_REQUIRE("unit/shared/cache.lua")
+RFX_REQUIRE("__test/unit/shared/cache.lua")
