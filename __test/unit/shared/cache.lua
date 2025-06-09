@@ -1,7 +1,7 @@
 ---@diagnostic disable: inject-field, need-check-nil
 local simulation = SIMULATION_CREATE("HELIX")
 local client1 = SIMULATOR_CREATE(simulation, "CLIENT")
-local resource = RESOURCE_LOAD(simulation, "../")
+local resource = RESOURCE_LOAD(simulation, "./")
 RESOURCE_START(resource)
 
 local env = ENVIRONMENT_GET(client1, resource)
