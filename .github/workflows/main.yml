@@ -14,4 +14,4 @@ jobs:
 
       - name: Run Tests
         run: |
-          clear && java -jar /home/actions/rfx/RefineX-1.0-SNAPSHOT.jar RFX __test/run.lua && cd ..
+          sh run.sh
