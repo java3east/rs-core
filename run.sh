@@ -1,4 +1,5 @@
 clear
+ls -la
 rm -rf rfx
 mkdir rfx
 cd rfx
