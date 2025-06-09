@@ -1,0 +1,1 @@
+java -jar /home/florian/Documents/github/RefineX2/RefineX-1.0-SNAPSHOT.jar RFX ./run.lua

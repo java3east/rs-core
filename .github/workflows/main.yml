@@ -9,10 +9,9 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Repository auschecken
+      - name: Check out repository
         uses: actions/checkout@v3
 
-      - name: JAR-Datei ausführen
+      - name: Run Tests
         run: |
-          echo "Starte Java-Anwendung"
-          java -jar ~/rfx/RefineX-1.0-SNAPSHOT.jar RFX ./test.lua
+          java -jar ~/rfx/RefineX-1.0-SNAPSHOT.jar RFX ./__test/test.lua

@@ -1,0 +1,1 @@
+RFX_REQUIRE("unit/shared/cache.lua")
