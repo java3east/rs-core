@@ -1,17 +1,21 @@
 name: Run JAR on Self-Hosted Server
 
+env:
+  LANG: en_US.UTF-8
+  LC_ALL: en_US.UTF-8
+
 on:
-  workflow_dispatch:  # Manuell auslösbar
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   run-jar:
     runs-on: self-hosted
 
     steps:
-      - name: Repository auschecken
+      - name: Check out repository
         uses: actions/checkout@v3
 
-      - name: JAR-Datei ausführen
+      - name: Run Tests
         run: |
-          echo "Starte Java-Anwendung"
-          java -jar ~/rfx/RefineX-1.0-SNAPSHOT.jar RFX ./test.lua
+          sh run.sh
