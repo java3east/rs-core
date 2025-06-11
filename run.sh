@@ -1,4 +1,5 @@
 clear &&
+echo "Fetching RefineX Simulation Environment..." &&
 rm -rf rfx &&
 mkdir rfx &&
 cd rfx &&
@@ -6,6 +7,7 @@ wget -q https://github.com/java3east/RefineXModular/releases/download/alpha-1.0/
 unzip -qq refinex.zip &&
 rm refinex.zip &&
 cd .. &&
+echo "Running RefineX Simulation..." &&
 java -jar ./rfx/RefineX-1.0-SNAPSHOT.jar RFX ./__test/run.lua &&
 rm -rf rfx &&
 echo "RefineX run completed."
