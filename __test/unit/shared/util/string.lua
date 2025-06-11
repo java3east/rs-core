@@ -30,4 +30,15 @@ Test.new('StringUtils randomString should return a string with the correct forma
         Test.assertOneOf(randomString:sub(6, 6), charLists["0"], "StringUtils randomString sixth character should be a digit for input 'aA0aA0'")
 end)
 
+Test.new('StringUtils split should return the correct parts', function()
+    -- when
+    local parts = StringUtils.split("hello.world.test", ".")
+
+    -- then
+    return Test.assert(#parts == 3, "StringUtils split should return 3 parts for input 'hello.world.test'") and
+        Test.assert(parts[1] == "hello", "First part should be 'hello'") and
+        Test.assert(parts[2] == "world", "Second part should be 'world'") and
+        Test.assert(parts[3] == "test", "Third part should be 'test'")
+end)
+
 Test.runAll("Shared.StringUtils")

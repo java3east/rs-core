@@ -1,9 +1,13 @@
 ---@class CPlayer
----@field player Player
+---@field player Player the helix player object
 ---@field activeCharacter CCharacter?
 CPlayer = {}
 CPlayer.__index = CPlayer
 
+---Creates a new CPlayer instance.
+---@nodiscard
+---@param player Player the helix player object
+---@return CPlayer cPlayer the new CPlayer instance
 function CPlayer.new(player)
     local cPlayer = {}
     setmetatable(cPlayer, CPlayer)

@@ -19,3 +19,16 @@ function Core.getPlayer(player)
         return players[player]
     end
 end
+
+---Adds the given function to the given object.
+---@param object string the name of the object to add the function to ("<object>.<object>" to select a nested object)
+---@param name string the name of the function to add
+---@param func fun(...) : ... the function to add
+function Core.addFunction(object, name, func)
+    local objNames = StringUtils.split(object, ".")
+    local obj = _G
+    for _, objName in ipairs(objNames) do
+        obj = obj[objName]
+    end
+    obj[name] = func
+end
