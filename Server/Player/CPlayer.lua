@@ -48,7 +48,8 @@ end
 ---@param event string the name of the event to trigger
 ---@param ... any the arguments to pass to the event handler
 function CPlayer:trigger(event, ...)
-    -- TODO
+    -- TODO: implement a net event trigger
+    --       this requires more intel on the HELIX scripting API
 end
 
 ---Called when the player leaves the server.
