@@ -32,3 +32,20 @@ function Core.addFunction(object, name, func)
     end
     obj[name] = func
 end
+
+---With this function new modules can be added or old ones can be replaced.
+---@param name string the name of the module to set
+---@param module table the module to set, which should contain functions and properties.
+function Core.setModule(name, module)
+    local objNames = StringUtils.split(name, ".")
+    local parent = nil
+    local obj = _G
+    for _, objName in ipairs(objNames) do
+        if not obj[objName] then
+            obj[objName] = {}
+        end
+        parent = obj
+        obj = obj[objName]
+    end
+    parent[objNames[#objNames]] = module
+end

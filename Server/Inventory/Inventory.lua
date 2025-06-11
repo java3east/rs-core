@@ -1,5 +1,5 @@
 ---@class Inventory
----@field id number the id of this inventory.
+---@field id number the id of this inventory. This is the same as the database id.
 Inventory = {}
 setmetatable(Inventory, {
     __call = function(cls, id)

@@ -31,4 +31,37 @@ Test.new('Core.addFunction should add a function to an object', function (self)
            Test.assert(obj[funcName]() == "Hello, World!", "Function '" .. funcName .. "' should return 'Hello, World!'")
 end)
 
+Test.new("Core.setModule should set a module", function (self)
+    -- given
+    local moduleName = "TestModule"
+    local module = {
+        testFunction = function() return "Test" end
+    }
+
+    -- when
+    Core.setModule(moduleName, module)
+
+    -- then
+    local obj = ENVIRONMENT_GET_VAR(env, moduleName)
+    return Test.assert(obj ~= nil, "Module '" .. moduleName .. "' should be set") and
+           Test.assert(obj.testFunction ~= nil, "Module '" .. moduleName .. "' should have 'testFunction'") and
+           Test.assert(obj.testFunction() == "Test", "Module '" .. moduleName .. "' should return 'Test' from 'testFunction'")
+end)
+
+Test.new("Core.setModule should replace existing module", function (self)
+    -- given
+    local moduleName = "Inventory"
+    local newModule = {
+        testFunction = function() return "New Test" end
+    }
+    local current = ENVIRONMENT_GET_VAR(env, moduleName)
+
+    -- when
+    Core.setModule(moduleName, newModule)
+    local obj = ENVIRONMENT_GET_VAR(env, moduleName)
+
+    -- then
+    return Test.assert(obj ~= current, "Module '" .. moduleName .. "' should be replaced")
+end)
+
 Test.runAll("Server.Core")
