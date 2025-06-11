@@ -28,6 +28,7 @@ end
 function CPlayer:setActiveCharacter(character)
     if self.activeCharacter then
         self.activeCharacter:sleep()
+        self.activeCharacter = nil
     end
     if character and character:wake(self) then
         self.activeCharacter = character
