@@ -1,4 +1,3 @@
----@diagnostic disable: inject-field, need-check-nil
 local simulation = SIMULATION_CREATE("HELIX")
 local client1 = SIMULATOR_CREATE(simulation, "CLIENT")
 local resource = RESOURCE_LOAD(simulation, "./")
@@ -64,4 +63,4 @@ Test.new('cache should clear all values when no key is provided', function (self
     return Test.assert(next(cache.data) == nil, "Cache should be empty after clearing without a key")
 end)
 
-Test.runAll()
+Test.runAll("Shared.Cache")
