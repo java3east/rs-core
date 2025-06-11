@@ -34,7 +34,7 @@ function CPlayer:setActiveCharacter(character)
     end
 end
 
----Returns weather or not the player is currently in a character.
+---Returns whether or not the player is currently in a character.
 ---Players are not in a character when they just joined the server, and are currently in the
 ---multicharacter selection menu.
 ---@nodiscard
