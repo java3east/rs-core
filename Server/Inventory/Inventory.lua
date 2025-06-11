@@ -1,11 +1,13 @@
 ---@class Inventory
 ---@field id number the id of this inventory. This is the same as the database id.
+---@field slots table<number, Inventory.ItemStack> the slots of this inventory, with their items.
 Inventory = {}
 setmetatable(Inventory, {
     __call = function(cls, id)
         local obj = {}
         setmetatable(obj, Inventory)
         obj.id = id
+        obj.slots = {}
         return obj
     end
 })
@@ -34,3 +36,5 @@ function Inventory.new()
     local id = createInventory()
     return Inventory(id)
 end
+
+
