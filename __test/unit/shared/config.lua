@@ -26,4 +26,12 @@ Test.new('Config generate BID should return a string <= 32 characters', function
     return Test.assert(type(bankingId) == "string" and #bankingId <= 32, "Config generateBankingAccountId should return a string with length <= 32")
 end)
 
+Test.new('Config generate transaction ID should return a string <= 32 characters', function()
+    -- when
+    local transactionId = Config.generateTransactionId()
+
+    -- then
+    return Test.assert(type(transactionId) == "string" and #transactionId <= 32, "Config generateTransactionId should return a string with length <= 32")
+end)
+
 Test.runAll("Shared.Config")
