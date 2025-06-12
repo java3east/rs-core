@@ -16,6 +16,9 @@ CCharacter.__index = CCharacter
 ---@class CCharacter.Data
 ---@field citizenId string the unique id of the character.
 
+---@type Cache
+local characters = Cache()
+
 ---Creates a new entry in the database for this character.
 ---@param cCharacter CCharacter the character to create an entry for
 local function create(cCharacter)
@@ -39,11 +42,12 @@ end
 ---@param citizenId string the unique id of the character to load.
 ---@return CCharacter? cCharacter the loaded CCharacter instance or nil if the character does not have an entry.
 function CCharacter.load(citizenId)
-    local cCharacter = CCharacter(citizenId)
-    if not load(cCharacter) then
-        return nil
-    end
-    return cCharacter
+    return characters:get(citizenId, function()
+        local cCharacter = CCharacter(citizenId)
+        if load(cCharacter) then
+            return cCharacter
+        end
+    end)
 end
 
 ---Creates a new core character object and saves it into the database.
