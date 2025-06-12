@@ -13,6 +13,9 @@ setmetatable(Inventory, {
 })
 Inventory.__index = Inventory
 
+---@type Cache
+local inventories = Cache()
+
 ---Creates a new inventory in the database and returns its id.
 ---@nodiscard
 ---@return number id the id of the newly created inventory.
@@ -22,13 +25,26 @@ local function createInventory()
     return 0
 end
 
+---Loads the inventory with the given id from the database.
+---@param inventory Inventory the inventory to load data for
+---@return boolean success true if the inventory was loaded successfully, false otherwise
+local function load(inventory)
+    -- TODO: Load the inventory data from the database.
+    --       This requires more intel on the HELIX scripting API.
+    return true
+end
+
 ---Loads the inventory with the given id.
 ---@nodiscard
 ---@param id string the id of the inventory to load.
 ---@return Inventory? inventory the loaded inventory, or nil if it could not be loaded.
 function Inventory.load(id)
-    -- TODO: Load the inventory from the database.
-    --       This requires more intel on the HELIX scripting API.
+    return inventories:get(id, function ()
+        local inventory = Inventory(id)
+        if load(inventory) then
+            return inventory
+        end
+    end)
 end
 
 ---Creates a new inventory

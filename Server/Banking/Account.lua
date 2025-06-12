@@ -15,6 +15,9 @@ setmetatable(Account, {
 })
 Account.__index = Account
 
+---@type Cache
+local accounts = Cache()
+
 ---@class Transaction
 ---@field id string the transaction ID
 ---@field from Account the account that initiated the transaction
@@ -52,10 +55,12 @@ end
 ---@param id string the ID of the account to load
 ---@return Account? account the loaded account object, or nil if it could not be loaded
 function Account.load(id)
-    local account = Account(id)
-    if load(account) then
-        return account
-    end
+    return accounts:get(id, function ()
+        local account = Account(id)
+        if load(account) then
+            return account
+        end
+    end)
 end
 
 ---Creates a new banking account. This account will be directly saved

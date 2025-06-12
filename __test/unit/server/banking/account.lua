@@ -37,7 +37,7 @@ end)
 
 Test.new('Account:removeBalance(amount) should remove the given amount from the account balance', function(self)
     -- given
-    local account = Account.load("test_account_id")
+    local account = Account.new()
     local amountToRemove = 50.0
     account:addBalance(100.0)
 
