@@ -11,23 +11,23 @@ Test.new('CCharacter should exist', function()
     return Test.assert(CCharacter ~= nil, "CCharacter should not be nil")
 end)
 
-Test.new('CCharacter should generate new citizenId if not provided', function()
+Test.new('CCharacter.new should create a new core character', function()
     -- when
     local cCharacter = CCharacter.new()
 
     -- then
-    return Test.assert(cCharacter.citizenId ~= nil and cCharacter.citizenId ~= "", "CCharacter should generate a new citizenId if not provided")
+    return Test.assert(cCharacter.citizenId ~= nil and cCharacter.citizenId ~= "", "CCharacter.new should create a new core character")
 end)
 
-Test.new('CCharacter should use provided citizenId', function()
+Test.new('CCharacter.load should use provided citizenId', function()
     -- given
     local id = "test_citizen_id"
 
     -- when
-    local cCharacter = CCharacter.new(id)
+    local cCharacter = CCharacter.load(id)
 
     -- then
-    return Test.assert(cCharacter.citizenId == id, "CCharacter should use the provided citizenId")
+    return Test.assert(cCharacter.citizenId == id, "CCharacter.load should use the provided citizenId")
 end)
 
 Test.new('CCharacter get data should return correct data', function (self)

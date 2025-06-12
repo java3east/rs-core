@@ -3,21 +3,56 @@
 ---@field possesedBy CPlayer? the player that is currently playing this character.
 ---@field citizenId string the unique id of the character.
 CCharacter = {}
+setmetatable(CCharacter, {
+    __call = function(t, id)
+        local cCharacter = {}
+        setmetatable(cCharacter, CCharacter)
+        cCharacter.citizenId = id
+        return cCharacter
+    end
+})
 CCharacter.__index = CCharacter
 
 ---@class CCharacter.Data
 ---@field citizenId string the unique id of the character.
 
----Creates a new core character object.
+---Creates a new entry in the database for this character.
+---@param cCharacter CCharacter the character to create an entry for
+local function create(cCharacter)
+    -- TODO: implement the database creation logic
+    --       this requires more intel on the HELIX scripting API
+end
+
+---Loads the data for the given character from the database.
+---This will return true if the character was loaded successfully, false otherwise.
 ---@nodiscard
----@param id string? the id of the character. This should be unique.
---- if not provided, a random id will be generated, and when saved,
---- it will be added to the database.
+---@param cCharacter CCharacter the character to load data for
+---@return boolean success true if the data was loaded successfully, false otherwise
+local function load(cCharacter)
+    -- TODO: implement the database loading logic
+    --       this requires more intel on the HELIX scripting API
+    return true
+end
+
+---Loads the core character object for the given citizenId.
+---@nodiscard
+---@param citizenId string the unique id of the character to load.
+---@return CCharacter? cCharacter the loaded CCharacter instance or nil if the character does not have an entry.
+function CCharacter.load(citizenId)
+    local cCharacter = CCharacter(citizenId)
+    if not load(cCharacter) then
+        return nil
+    end
+    return cCharacter
+end
+
+---Creates a new core character object and saves it into the database.
+---This will generate a new citizenId for the character.
+---@nodiscard
 ---@return CCharacter ccharacter the new core character object.
-function CCharacter.new(id)
-    local cCharacter = {}
-    setmetatable(cCharacter, CCharacter)
-    cCharacter.citizenId = id or Config.generateCharacterId()
+function CCharacter.new()
+    local id = Config.generateCharacterId()
+    local cCharacter = CCharacter(id)
     return cCharacter
 end
 

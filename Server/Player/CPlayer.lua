@@ -2,16 +2,53 @@
 ---@field player Player the helix player object
 ---@field activeCharacter CCharacter?
 CPlayer = {}
+setmetatable(CPlayer, {
+    __call = function (t, player)
+        local cPlayer = {}
+        setmetatable(cPlayer, CPlayer)
+        cPlayer.player = player
+        return cPlayer
+    end
+})
 CPlayer.__index = CPlayer
 
----Creates a new CPlayer instance.
+---Creates a new entry in the database for this player.
+---@param cPlayer CPlayer the player to create an entry for
+local function create(cPlayer)
+    -- TODO: implement the database creation logic
+    --       this requires more intel on the HELIX scripting API
+end
+
+---Loads the data for the given player from the database.
+---@nodiscard
+---@param cPlayer CPlayer the player to load data for
+---@return boolean success true if the data was loaded successfully, false otherwise
+local function load(cPlayer)
+    -- TODO: implement the database loading logic
+    --       this requires more intel on the HELIX scripting API
+    return true
+end
+
+---Loads the cPlayer object for the given player.
+---If the player does not have an entry in the database, it will return nil.
+---@nodiscard
+---@param player Player the helix player object
+---@return CPlayer? cPlayer the loaded CPlayer instance or nil if the player does not have an entry
+function CPlayer.load(player)
+    local cPlayer = CPlayer(player)
+    if not load(cPlayer) then
+        return nil
+    end
+    return cPlayer
+end
+
+---Creates a new CPlayer Object that will be saved directly into the database.
 ---@nodiscard
 ---@param player Player the helix player object
 ---@return CPlayer cPlayer the new CPlayer instance
 function CPlayer.new(player)
-    local cPlayer = {}
-    setmetatable(cPlayer, CPlayer)
-    cPlayer.player = player
+    local cPlayer = CPlayer(player)
+    create(cPlayer)
 
     -- we may need to add all the functions here since metatables might not work.
     -- at least they didn't work in fivem when sharing this object with other scripts.
