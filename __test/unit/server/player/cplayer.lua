@@ -1,5 +1,6 @@
 local simulation = SIMULATION_CREATE("HELIX")
 local server = SIMULATION_GET_SERVER(simulation)
+local client = SIMULATOR_CREATE(simulation, "CLIENT")
 local resource = RESOURCE_LOAD(simulation, "./")
 RESOURCE_START(resource)
 
@@ -12,7 +13,7 @@ end)
 
 Test.new('CPlayer should have no active character by default', function()
     -- given
-    local player = { }
+    local player = { server_id = client }
     local cPlayer = CPlayer.new(player)
 
     -- when
@@ -24,7 +25,7 @@ end)
 
 Test.new('CPlayer:setActiveCharacter should set the active character', function()
     -- given
-    local player = { }
+    local player = { server_id = client }
     local cPlayer = CPlayer.new(player)
     local CCharacter = ENVIRONMENT_GET_VAR(env, "CCharacter")
     local cCharacter = CCharacter.new("test_citizen_id")
@@ -39,7 +40,7 @@ end)
 
 Test.new('CPlayer:isInCharacter should return correct state', function()
     -- given
-    local player = { }
+    local player = { server_id = client }
     local cPlayer = CPlayer.new(player)
     local CCharacter = ENVIRONMENT_GET_VAR(env, "CCharacter")
     local cCharacter = CCharacter.new("test_citizen_id")
@@ -58,7 +59,7 @@ end)
 
 Test.new('CPlayer:logout should clear active character', function()
     -- given
-    local player = { }
+    local player = { server_id = client }
     local cPlayer = CPlayer.new(player)
     local CCharacter = ENVIRONMENT_GET_VAR(env, "CCharacter")
     local cCharacter = CCharacter.new("test_citizen_id")

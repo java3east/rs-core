@@ -1,5 +1,7 @@
 local simulation = SIMULATION_CREATE("HELIX")
 local server = SIMULATION_GET_SERVER(simulation)
+local client = SIMULATOR_CREATE(simulation, "CLIENT")
+local client2 = SIMULATOR_CREATE(simulation, "CLIENT")
 local resource = RESOURCE_LOAD(simulation, "./")
 RESOURCE_START(resource)
 
@@ -44,7 +46,7 @@ end)
 Test.new('CCharacter:wake should set the character as active for the player', function()
     -- given
     local cCharacter = CCharacter.new()
-    local cPlayer = CPlayer.new({})
+    local cPlayer = CPlayer.new({server_id = client})
 
     -- when
     local success = cCharacter:wake(cPlayer)
@@ -56,8 +58,8 @@ end)
 Test.new('CCharacter:wake should not set the character as active if already possessed', function()
     -- given
     local cCharacter = CCharacter.new()
-    local cPlayer1 = CPlayer.new({})
-    local cPlayer2 = CPlayer.new({})
+    local cPlayer1 = CPlayer.new({server_id = client})
+    local cPlayer2 = CPlayer.new({server_id = client2})
 
     -- when
     cCharacter:wake(cPlayer1)
@@ -70,7 +72,7 @@ end)
 Test.new('CCharacter:sleep should mark the character as inactive', function()
     -- given
     local cCharacter = CCharacter.new()
-    local cPlayer = CPlayer.new({})
+    local cPlayer = CPlayer.new({server_id = client})
 
     -- when
     cCharacter:wake(cPlayer)

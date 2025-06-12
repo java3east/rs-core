@@ -89,8 +89,7 @@ end
 ---@param event string the name of the event to trigger
 ---@param ... any the arguments to pass to the event handler
 function CPlayer:trigger(event, ...)
-    -- TODO: implement a net event trigger
-    --       this requires more intel on the HELIX scripting API
+    Events.CallRemote(event, self.player, ...)
 end
 
 ---Called when the player leaves the server.
