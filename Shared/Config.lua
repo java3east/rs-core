@@ -19,3 +19,10 @@ function Config.generateBankingAccountId()
                   .. "-"
                   .. StringUtils.randomString("0000")
 end
+
+function Config.generateTransactionId()
+    return "TID-" .. StringUtils.randomString("AAAA")
+                  .. StringUtils.randomString("0000")
+                  .. "-"
+                  .. StringUtils.randomString("0000")
+end

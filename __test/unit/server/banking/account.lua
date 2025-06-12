@@ -63,4 +63,41 @@ Test.new('Account:removeBalance(amount) should return false if the account does 
            Test.assert(account.balance == initialBalance, "Account balance should remain unchanged")
 end)
 
+Test.new('Account:createTransaction(to, amount, description) should create a transaction and update balances', function(self)
+    -- given
+    local fromAccount = Account.new()
+    local toAccount = Account.new()
+    fromAccount:addBalance(200.0)
+
+    -- when
+    local transaction = fromAccount:createTransaction(toAccount, 100.0, "Test Transaction")
+
+    -- then
+    return Test.assert(transaction ~= nil, "Transaction should be created") and
+           Test.assert(transaction.from == fromAccount.id, "Transaction should have the correct from account") and
+           Test.assert(transaction.to == toAccount.id, "Transaction should have the correct to account") and
+           Test.assert(transaction.amount == 100.0, "Transaction should have the correct amount") and
+           Test.assert(fromAccount.balance == 100.0, "From account balance should be updated") and
+           Test.assert(toAccount.balance == 100.0, "To account balance should be updated") and
+           Test.assert(transaction.description == "Test Transaction", "Transaction should have the correct description") and
+           Test.assert(transaction.id ~= nil, "Transaction should have a valid ID") and
+           Test.assert(#fromAccount.transactions > 0, "From account should have at least one transaction") and
+           Test.assert(#toAccount.transactions > 0, "To account should have at least one transaction")
+end)
+
+Test.new('Account:createTransaction(to, amount, description) should return nil if the from account does not have enough balance', function(self)
+    -- given
+    local fromAccount = Account.new()
+    local toAccount = Account.new()
+    fromAccount:addBalance(50.0)
+
+    -- when
+    local transaction = fromAccount:createTransaction(toAccount, 100.0, "Test Transaction")
+
+    -- then
+    return Test.assert(transaction == nil, "Transaction should not be created due to insufficient balance") and
+           Test.assert(fromAccount.balance == 50.0, "From account balance should remain unchanged") and
+           Test.assert(toAccount.balance == 0.0, "To account balance should remain unchanged")
+end)
+
 Test.runAll('Server.Account')
