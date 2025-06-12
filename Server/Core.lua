@@ -49,3 +49,13 @@ function Core.setModule(name, module)
     end
     parent[objNames[#objNames]] = module
 end
+
+---Registers a new item in the core item registry. This allowes the creation
+---of itemsstacks of the given type.
+---@param name string the name of the item
+---@param label string the display name of the item
+---@param description string the description of the item
+---@param weight number the weight of the item
+function Core.registerItem(name, label, description, weight)
+    ItemStack.createConstructor(name, label, description, weight)
+end

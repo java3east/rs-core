@@ -39,6 +39,20 @@ local function createItemStack(name, quantity, metadata)
     return 0
 end
 
+---Adds a new item stack constructor to the list of constructors.
+---@param name string the name of the item
+---@param label string the display name of the item
+---@param description string the description of the item
+---@param weight number the weight of the item
+function ItemStack.createConstructor(name, label, description, weight)
+    constructors[name] {
+        name = name,
+        label = label,
+        description = description,
+        weight = weight
+    }
+end
+
 ---Creates a new itemstack with the given name, quantity, and metadata.
 ---@nodiscard
 ---@param name string the name of the item
