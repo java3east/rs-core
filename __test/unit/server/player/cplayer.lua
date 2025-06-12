@@ -33,7 +33,8 @@ Test.new('CPlayer:setActiveCharacter should set the active character', function(
     cPlayer:setActiveCharacter(cCharacter)
 
     -- then
-    return Test.assert(cPlayer:getActiveCharacter() == cCharacter, "CPlayer should have the active character set")
+    return Test.assert(cPlayer:getActiveCharacter() == cCharacter, "CPlayer should have the active character set") and
+           Test.assert(cCharacter.possesedBy == cPlayer, "CCharacter should be possessed by the CPlayer")
 end)
 
 Test.new('CPlayer:isInCharacter should return correct state', function()
@@ -67,7 +68,8 @@ Test.new('CPlayer:logout should clear active character', function()
     cPlayer:logout()
 
     -- then
-    return Test.assert(cPlayer:getActiveCharacter() == nil, "CPlayer should have no active character after logout")
+    return Test.assert(cPlayer:getActiveCharacter() == nil, "CPlayer should have no active character after logout") and
+           Test.assert(cCharacter.possesedBy == nil, "CCharacter should not be possessed by any CPlayer after logout")
 end)
 
 Test.runAll("Server.CPlayer")
