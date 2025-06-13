@@ -1,4 +1,3 @@
----@diagnostic disable: inject-field, need-check-nil
 local simulation = SIMULATION_CREATE("HELIX")
 local client1 = SIMULATOR_CREATE(simulation, "CLIENT")
 local resource = RESOURCE_LOAD(simulation, "./")
@@ -13,7 +12,7 @@ end)
 
 Test.new('cache get should call producer on nil value', function (self)
     -- given
-    local cache = Cache.new()
+    local cache = Cache()
 
     -- when
     local result = cache:get('test', function ()
@@ -26,7 +25,7 @@ end)
 
 Test.new('cache get should return existing value', function (self)
     -- given
-    local cache = Cache.new()
+    local cache = Cache()
     cache:set('test', 'existing_value')
 
     -- when
@@ -40,7 +39,7 @@ end)
 
 Test.new('cache should clear only 1 value when key is provided', function (self)
     -- given
-    local cache = Cache.new()
+    local cache = Cache()
     cache:set('test1', 'value1')
     cache:set('test2', 'value2')
 
@@ -53,7 +52,7 @@ end)
 
 Test.new('cache should clear all values when no key is provided', function (self)
     -- given
-    local cache = Cache.new()
+    local cache = Cache()
     cache:set('test1', 'value1')
     cache:set('test2', 'value2')
 
@@ -64,4 +63,4 @@ Test.new('cache should clear all values when no key is provided', function (self
     return Test.assert(next(cache.data) == nil, "Cache should be empty after clearing without a key")
 end)
 
-Test.runAll()
+Test.runAll("Shared.Cache")

@@ -1,17 +1,15 @@
 ---@class Cache
 ---@field data table<any, any> the cache data
 Cache = {}
+setmetatable(Cache, {
+    __call = function(t)
+        local cache = {}
+        setmetatable(cache, Cache)
+        cache.data = {}
+        return cache
+    end
+})
 Cache.__index = Cache
-
----Creates a new cache object.
----@nodiscard
----@return Cache cache the new cache object
-function Cache.new()
-    local cache = {}
-    setmetatable(cache, Cache)
-    cache.data = {}
-    return cache
-end
 
 ---Returns the value associated with the given key in the cache.
 ---If the key does not exist, it will call the producer function

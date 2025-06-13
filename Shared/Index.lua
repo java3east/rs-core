@@ -1,2 +1,3 @@
-Package.require("Shared/Cache.lua")
-Package.require("Shared/Config.lua")
+Package.Require("Shared/Cache.lua")
+Package.Require("Shared/Config.lua")
+Package.Require("Shared/Util/String.lua")
