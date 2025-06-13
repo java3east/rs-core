@@ -11,6 +11,9 @@ function Config.generateCharacterId()
                       .. StringUtils.randomString("0000")
 end
 
+---Generates a ranodm banking account ID in the format "BID-AA00-0000-0000".
+---This ID will be used to uniquely identify a banking account in the game.
+---@return string bankingAccountId the generated banking account ID
 function Config.generateBankingAccountId()
     return "BID-" .. StringUtils.randomString("AA")
                   .. StringUtils.randomString("00")
@@ -20,6 +23,9 @@ function Config.generateBankingAccountId()
                   .. StringUtils.randomString("0000")
 end
 
+---Generates a random transaction ID in the format "TID-AAAA0000-AAAA0000-AAAA0000".
+---This ID will be used to uniquely identify a transaction in the game.
+---@return string transactionId the generated transaction ID
 function Config.generateTransactionId()
     return "TID-" .. StringUtils.randomString("AAAA")
                   .. StringUtils.randomString("0000")
