@@ -1,12 +1,16 @@
 ---@class CPlayer
 ---@field player Player the helix player object
 ---@field activeCharacter CCharacter?
+---@field data Cache the data cache for this player
 CPlayer = {}
 setmetatable(CPlayer, {
     __call = function (t, player)
         local cPlayer = {}
         setmetatable(cPlayer, CPlayer)
         cPlayer.player = player
+        cPlayer.data = Cache() --[[@as Cache]]
+        local identifier = player:getIdentifier()
+        cPlayer.data:set('identifier', identifier)
         return cPlayer
     end
 })
@@ -83,6 +87,10 @@ end
 ---@return boolean inCharacter true if the player is currently in a character, false otherwise.
 function CPlayer:isInCharacter()
     return self.activeCharacter ~= nil
+end
+
+function CPlayer:getIdentifier()
+    return self.data:get('identifier')
 end
 
 ---Triggers the given event on this player.

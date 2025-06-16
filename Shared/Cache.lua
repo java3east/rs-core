@@ -16,10 +16,10 @@ Cache.__index = Cache
 ---to generate the value, store it in the cache, and return it.
 ---@nodiscard
 ---@param key any the key to retrieve the value for
----@param producer fun(): any the function to call to produce the value if it does not exist
+---@param producer? fun(): any the function to call to produce the value if it does not exist
 ---@return any value the value associated with the key
 function Cache:get(key, producer)
-    if self.data[key] == nil then
+    if self.data[key] == nil and producer then
         self.data[key] = producer()
     end
     return self.data[key]

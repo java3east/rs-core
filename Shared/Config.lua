@@ -1,6 +1,21 @@
 ---@class Config
 Config = {}
 
+---@class Config.log
+Config.log = {
+    ---@type boolean if true, debug messages will be logged to the console.
+    debug = true,
+
+    ---@type boolean if true, info messages will be logged to the console.
+    info = true,
+
+    ---@type boolean if true, warning messages will be logged to the console.
+    warn = true,
+
+    ---@type boolean if true, error messages will be logged to the console.
+    error = true
+}
+
 ---Generates a random character ID in the format "CITIZEN-AAAAAA-0000".
 ---This ID will be used to uniquely identify a character in the game and by default
 ---also shown on the players id card.

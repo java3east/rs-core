@@ -7,8 +7,6 @@ Package = {}
 ---at this point in the program
 function Package.Require(path) end
 
----@class Player
-
 ---@class Events
 Events = {}
 
@@ -37,3 +35,16 @@ function Events.Subscribe(event, callback) end
 ---@param event string the name of the event to subscribe to
 ---@param callback fun(...: any) the function to call when the event is triggered
 function Events.SubscribeRemote(event, callback) end
+
+---@class Player
+Player = {}
+
+---Adds an event handler for the given event on the player.
+---@param event string the name of the event to subscribe to
+---@param callback fun(...: any) the function to call when the event is triggered
+---@overload fun(event: 'Spawn', callback: fun(player: Player))
+function Player.Subscribe(event, callback) end
+
+---@nodiscard
+---@return string name the name of the player
+function Player:GetName() end

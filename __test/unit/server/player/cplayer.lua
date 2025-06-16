@@ -1,3 +1,4 @@
+---@diagnostic disable: param-type-mismatch
 local simulation = SIMULATION_CREATE("HELIX")
 local server = SIMULATION_GET_SERVER(simulation)
 local client = SIMULATOR_CREATE(simulation, "CLIENT")
@@ -5,7 +6,10 @@ local resource = RESOURCE_LOAD(simulation, "./")
 RESOURCE_START(resource)
 
 local env = ENVIRONMENT_GET(server, resource)
+local Player = ENVIRONMENT_GET_VAR(env, "Player")
+
 local CPlayer = ENVIRONMENT_GET_VAR(env, "CPlayer")
+local Core = ENVIRONMENT_GET_VAR(env, "Core")
 
 Test.new('CPlayer should exist', function()
     return Test.assert(CPlayer ~= nil, "CPlayer should not be nil")
@@ -13,7 +17,7 @@ end)
 
 Test.new('CPlayer should have no active character by default', function()
     -- given
-    local player = { server_id = client }
+    local player = Player.__of(client)
     local cPlayer = CPlayer.new(player)
 
     -- when
@@ -25,7 +29,7 @@ end)
 
 Test.new('CPlayer:setActiveCharacter should set the active character', function()
     -- given
-    local player = { server_id = client }
+    local player = Player.__of(client)
     local cPlayer = CPlayer.new(player)
     local CCharacter = ENVIRONMENT_GET_VAR(env, "CCharacter")
     local cCharacter = CCharacter.new("test_citizen_id")
@@ -40,7 +44,7 @@ end)
 
 Test.new('CPlayer:isInCharacter should return correct state', function()
     -- given
-    local player = { server_id = client }
+    local player = Player.__of(client)
     local cPlayer = CPlayer.new(player)
     local CCharacter = ENVIRONMENT_GET_VAR(env, "CCharacter")
     local cCharacter = CCharacter.new("test_citizen_id")
@@ -59,7 +63,7 @@ end)
 
 Test.new('CPlayer:logout should clear active character', function()
     -- given
-    local player = { server_id = client }
+    local player = Player.__of(client)
     local cPlayer = CPlayer.new(player)
     local CCharacter = ENVIRONMENT_GET_VAR(env, "CCharacter")
     local cCharacter = CCharacter.new("test_citizen_id")
@@ -73,4 +77,15 @@ Test.new('CPlayer:logout should clear active character', function()
            Test.assert(cCharacter.possesedBy == nil, "CCharacter should not be possessed by any CPlayer after logout")
 end)
 
-Test.runAll("Server.CPlayer")
+Test.new("CPlayer:getIdentifier should return the player's identifier", function()
+    -- given
+    local client2 = SIMULATOR_CREATE(simulation, "CLIENT")
+    local cPlayer = Core.getPlayers()[1]
+
+    -- when
+    local identifier = cPlayer:getIdentifier()
+    local expectedIdentifier = cPlayer.player:getIdentifier()
+
+    -- then
+    return Test.assert(identifier == expectedIdentifier, "CPlayer:getIdentifier should return the player's identifier")
+end)

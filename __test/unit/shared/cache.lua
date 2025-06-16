@@ -1,7 +1,7 @@
 local simulation = SIMULATION_CREATE("HELIX")
-local client1 = SIMULATOR_CREATE(simulation, "CLIENT")
 local resource = RESOURCE_LOAD(simulation, "./")
 RESOURCE_START(resource)
+local client1 = SIMULATOR_CREATE(simulation, "CLIENT")
 
 local env = ENVIRONMENT_GET(client1, resource)
 local Cache = ENVIRONMENT_GET_VAR(env, "Cache")
@@ -63,4 +63,3 @@ Test.new('cache should clear all values when no key is provided', function (self
     return Test.assert(next(cache.data) == nil, "Cache should be empty after clearing without a key")
 end)
 
-Test.runAll("Shared.Cache")

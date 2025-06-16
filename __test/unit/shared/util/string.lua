@@ -41,4 +41,14 @@ Test.new('StringUtils split should return the correct parts', function()
         Test.assert(parts[3] == "test", "Third part should be 'test'")
 end)
 
-Test.runAll("Shared.StringUtils")
+Test.new('StringUtils format should replace keys with values', function()
+    -- given
+    local str = "Hello, {name}! You have {count} new messages."
+    local args = {name = "Alice", count = 5}
+
+    -- when
+    local formattedStr = StringUtils.format(str, args)
+
+    -- then
+    return Test.assert(formattedStr == "Hello, Alice! You have 5 new messages.", "StringUtils format should replace keys with values correctly")
+end)

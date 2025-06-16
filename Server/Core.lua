@@ -7,6 +7,41 @@ local players = {}
 ---@type table<string, CPlayer> the mapping of player identifiers to their corresponding CPlayer objects.
 local playersByIdentifier = {}
 
+---Called when a player joins the server.
+---This creates the player object and adds it to the player mappings.
+---@param player Player the player that just joined the server.
+local function onJoin(player)
+    local cPlayer = CPlayer.load(player)
+    if not cPlayer then
+       cPlayer = CPlayer.new(player)
+    end
+    players[player] = cPlayer
+    playersByIdentifier[cPlayer:getIdentifier()] = cPlayer
+    Log.info("Player {name} joined with identifier {identifier}.", {name = player:GetName(), identifier = cPlayer:getIdentifier()})
+end
+
+---Called when a player quits the server.
+---This removes the player object from the player mappings and logs out the player.
+---@param player Player the player that is quitting the server.
+local function onQuit(player)
+    local cPlayer = players[player]
+    if not cPlayer then return end
+    cPlayer:logout()
+    players[player] = nil
+    playersByIdentifier[cPlayer:getIdentifier()] = nil
+end
+
+---Returns a list of all players that are currently online.
+---@nodiscard
+---@return CPlayer[] players the list of all online players.
+function Core.getPlayers()
+    local playerList = {}
+    for _, cPlayer in pairs(players) do
+        table.insert(playerList, cPlayer)
+    end
+    return playerList
+end
+
 ---Returns the CPlayer object for the given Player object or identifier.
 ---@nodiscard
 ---@param player Player|string the player or player identifier to get the CPlayer object for.
@@ -59,3 +94,5 @@ end
 function Core.registerItem(name, label, description, weight)
     ItemStack.createConstructor(name, label, description, weight)
 end
+
+Player.Subscribe('Spawn', onJoin)

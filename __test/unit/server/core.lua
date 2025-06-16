@@ -3,6 +3,8 @@ local server = SIMULATION_GET_SERVER(simulation)
 local resource = RESOURCE_LOAD(simulation, "./")
 RESOURCE_START(resource)
 
+local client = SIMULATOR_CREATE(simulation, "CLIENT")
+
 local env = ENVIRONMENT_GET(server, resource)
 local Core = ENVIRONMENT_GET_VAR(env, "Core")
 
@@ -64,4 +66,14 @@ Test.new("Core.setModule should replace existing module", function (self)
     return Test.assert(obj ~= current, "Module '" .. moduleName .. "' should be replaced")
 end)
 
-Test.runAll("Server.Core")
+Test.new('Player should be registered on spawn', function (self)
+    -- given
+    local size = #Core.getPlayers()
+
+    -- when
+    local client2 = SIMULATOR_CREATE(simulation, "CLIENT")
+    local sizeNow = #Core.getPlayers()
+
+    -- then
+    return Test.assert(sizeNow == size + 1, "Player should be registered on spawn")
+end)

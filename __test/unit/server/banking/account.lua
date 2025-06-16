@@ -100,4 +100,3 @@ Test.new('Account:createTransaction(to, amount, description) should return nil i
            Test.assert(toAccount.balance == 0.0, "To account balance should remain unchanged")
 end)
 
-Test.runAll('Server.Account')

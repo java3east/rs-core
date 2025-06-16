@@ -34,4 +34,3 @@ Test.new('Config generate transaction ID should return a string <= 32 characters
     return Test.assert(type(transactionId) == "string" and #transactionId <= 32, "Config generateTransactionId should return a string with length <= 32")
 end)
 
-Test.runAll("Shared.Config")

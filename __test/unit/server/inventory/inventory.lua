@@ -18,5 +18,3 @@ Test.new('Inventory() should create a new inventory object with the given id', f
     return Test.assert(inventory ~= nil and type(inventory) == "table", "Inventory should create a new inventory object") and
            Test.assert(inventory.id == 1, "Inventory should have the correct id")
 end)
-
-Test.runAll('Server.Inventory')

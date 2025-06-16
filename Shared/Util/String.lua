@@ -36,3 +36,17 @@ function StringUtils.split(str, sep)
     end
     return t
 end
+
+---Formats the given string with the given arguments.
+---This will replace {key} with the value of args[key].
+---@nodiscard
+---@param str string the string to format
+---@param args table<string, any> args the arguments to format the string with
+---@return string formattedStr the formatted string
+function StringUtils.format(str, args)
+    local formattedStr = str
+    for key, value in pairs(args) do
+        formattedStr = formattedStr:gsub("{" .. key .. "}", tostring(value))
+    end
+    return formattedStr
+end

@@ -1,3 +1,4 @@
+---@diagnostic disable: param-type-mismatch
 local simulation = SIMULATION_CREATE("HELIX")
 local server = SIMULATION_GET_SERVER(simulation)
 local client = SIMULATOR_CREATE(simulation, "CLIENT")
@@ -6,6 +7,8 @@ local resource = RESOURCE_LOAD(simulation, "./")
 RESOURCE_START(resource)
 
 local env = ENVIRONMENT_GET(server, resource)
+local Player = ENVIRONMENT_GET_VAR(env, "Player")
+
 local CCharacter = ENVIRONMENT_GET_VAR(env, "CCharacter")
 local CPlayer = ENVIRONMENT_GET_VAR(env, "CPlayer")
 
@@ -46,7 +49,7 @@ end)
 Test.new('CCharacter:wake should set the character as active for the player', function()
     -- given
     local cCharacter = CCharacter.new()
-    local cPlayer = CPlayer.new({server_id = client})
+    local cPlayer = CPlayer.new(Player.__of(client))
 
     -- when
     local success = cCharacter:wake(cPlayer)
@@ -58,8 +61,8 @@ end)
 Test.new('CCharacter:wake should not set the character as active if already possessed', function()
     -- given
     local cCharacter = CCharacter.new()
-    local cPlayer1 = CPlayer.new({server_id = client})
-    local cPlayer2 = CPlayer.new({server_id = client2})
+    local cPlayer1 = CPlayer.new(Player.__of(client))
+    local cPlayer2 = CPlayer.new(Player.__of(client2))
 
     -- when
     cCharacter:wake(cPlayer1)
@@ -72,7 +75,7 @@ end)
 Test.new('CCharacter:sleep should mark the character as inactive', function()
     -- given
     local cCharacter = CCharacter.new()
-    local cPlayer = CPlayer.new({server_id = client})
+    local cPlayer = CPlayer.new(Player.__of(client))
 
     -- when
     cCharacter:wake(cPlayer)
@@ -81,5 +84,3 @@ Test.new('CCharacter:sleep should mark the character as inactive', function()
     -- then
     return Test.assert(cCharacter.possesedBy == nil, "CCharacter should be marked as inactive after sleep")
 end)
-
-Test.runAll("Server.CCharacter")
