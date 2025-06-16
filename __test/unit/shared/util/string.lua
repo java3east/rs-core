@@ -1,9 +1,9 @@
 local simulation = SIMULATION_CREATE("HELIX")
-local client1 = SIMULATOR_CREATE(simulation, "CLIENT")
+local server = SIMULATION_GET_SERVER(simulation)
 local resource = RESOURCE_LOAD(simulation, "./")
 RESOURCE_START(resource)
 
-local env = ENVIRONMENT_GET(client1, resource)
+local env = ENVIRONMENT_GET(server, resource)
 local StringUtils = ENVIRONMENT_GET_VAR(env, "StringUtils")
 
 Test.new('StringUtils should exist', function()

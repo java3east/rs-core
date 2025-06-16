@@ -1,9 +1,9 @@
 local simulation = SIMULATION_CREATE("HELIX")
 local resource = RESOURCE_LOAD(simulation, "./")
+local server = SIMULATION_GET_SERVER(simulation)
 RESOURCE_START(resource)
-local client1 = SIMULATOR_CREATE(simulation, "CLIENT")
 
-local env = ENVIRONMENT_GET(client1, resource)
+local env = ENVIRONMENT_GET(server, resource)
 local Cache = ENVIRONMENT_GET_VAR(env, "Cache")
 
 Test.new('cache should exist', function()

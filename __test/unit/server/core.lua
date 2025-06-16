@@ -6,6 +6,7 @@ RESOURCE_START(resource)
 local client = SIMULATOR_CREATE(simulation, "CLIENT")
 
 local env = ENVIRONMENT_GET(server, resource)
+local Player = ENVIRONMENT_GET_VAR(env, "Player")
 local Core = ENVIRONMENT_GET_VAR(env, "Core")
 
 Test.new('Core should exist', function()
@@ -64,6 +65,43 @@ Test.new("Core.setModule should replace existing module", function (self)
 
     -- then
     return Test.assert(obj ~= current, "Module '" .. moduleName .. "' should be replaced")
+end)
+
+Test.new('Core.hasModule should return true for existing module', function (self)
+    -- given
+    local moduleName = "Inventory"
+    local moduleName2 = "NonExistentModule"
+
+    -- when
+    local hasModule = Core.hasModule(moduleName)
+    local hasModule2 = Core.hasModule(moduleName2)
+
+    -- then
+    return Test.assert(hasModule, "Core should have module '" .. moduleName .. "'") and
+           Test.assert(not hasModule2, "Core should not have module '" .. moduleName2 .. "'")
+end)
+
+Test.new('Core.getPlayers should return all online players', function (self)
+    -- given
+    local players = Core.getPlayers()
+
+    -- when
+    local size = #players
+
+    -- then
+    return Test.assert(size > 0, "Core should return at least one player") and
+           Test.assert(type(players[1]) == "table", "Core should return players as table")
+end)
+
+Test.new('Core.getPlayer should return the correct player', function (self)
+    -- given
+    local player = Player.__of(client)
+    local identifier = player:getIdentifier()
+
+    -- when
+    local cPlayer = Core.getPlayer(player)
+    -- then
+    return Test.assert(cPlayer ~= nil and cPlayer:getIdentifier() == identifier, "Core should return correct player for Core.getPlayer")
 end)
 
 Test.new('Player should be registered on spawn', function (self)

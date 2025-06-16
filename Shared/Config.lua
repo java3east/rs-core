@@ -16,6 +16,10 @@ Config.log = {
     error = true
 }
 
+---@type string? the guild ID of the discord server this server is connected to.
+---This is where the player groups are synchronized with.
+Config.guildId = nil
+
 ---Generates a random character ID in the format "CITIZEN-AAAAAA-0000".
 ---This ID will be used to uniquely identify a character in the game and by default
 ---also shown on the players id card.

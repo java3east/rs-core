@@ -3,18 +3,6 @@
 ---@field activeCharacter CCharacter?
 ---@field data Cache the data cache for this player
 CPlayer = {}
-setmetatable(CPlayer, {
-    __call = function (t, player)
-        local cPlayer = {}
-        setmetatable(cPlayer, CPlayer)
-        cPlayer.player = player
-        cPlayer.data = Cache() --[[@as Cache]]
-        local identifier = player:getIdentifier()
-        cPlayer.data:set('identifier', identifier)
-        return cPlayer
-    end
-})
-CPlayer.__index = CPlayer
 
 ---Creates a new entry in the database for this player.
 ---@param cPlayer CPlayer the player to create an entry for
@@ -32,6 +20,29 @@ local function load(cPlayer)
     --       this requires more intel on the HELIX scripting API
     return true
 end
+
+---Loads the groups for the given player.
+---@nodiscard
+---@param cPlayer CPlayer the player to refresh groups for
+---@return table<number> groups the ids of the discord roles the player has
+local function getGroups(cPlayer)
+    -- TODO: implement the discord group refresh logic
+    --       this requires more intel on the HELIX scripting API
+    return {}
+end
+
+setmetatable(CPlayer, {
+    __call = function (t, player)
+        local cPlayer = {}
+        setmetatable(cPlayer, CPlayer)
+        cPlayer.player = player
+        cPlayer.data = Cache() --[[@as Cache]]
+        local identifier = player:getIdentifier()
+        cPlayer.data:set('identifier', identifier)
+        return cPlayer
+    end
+})
+CPlayer.__index = CPlayer
 
 ---Loads the cPlayer object for the given player.
 ---If the player does not have an entry in the database, it will return nil.
@@ -91,6 +102,18 @@ end
 
 function CPlayer:getIdentifier()
     return self.data:get('identifier')
+end
+
+---Checks if this player has the given group.
+---Groups are synchronized with the Discord roles of the player.
+---@nodiscard
+---@param group number the role id to check for (NOT THE NAME!)
+---@return boolean hasGroup true if the player has the group, false otherwise
+function CPlayer:hasGroup(group)
+    local groups = self.data:get('groups', function ()
+        return Collection(getGroups(self))
+    end) --[[@as Collection]]
+    return groups:contains(group)
 end
 
 ---Triggers the given event on this player.

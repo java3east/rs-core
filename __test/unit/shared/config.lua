@@ -1,9 +1,9 @@
 local simulation = SIMULATION_CREATE("HELIX")
-local client1 = SIMULATOR_CREATE(simulation, "CLIENT")
 local resource = RESOURCE_LOAD(simulation, "./")
+local server = SIMULATION_GET_SERVER(simulation)
 RESOURCE_START(resource)
 
-local env = ENVIRONMENT_GET(client1, resource)
+local env = ENVIRONMENT_GET(server, resource)
 local Config = ENVIRONMENT_GET_VAR(env, "Config")
 
 Test.new('Config should exist', function()

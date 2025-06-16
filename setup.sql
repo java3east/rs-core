@@ -1,40 +1,10 @@
 /*
-    Groups with higher priority will have all the permissions of the groups with lower priority.
-*/
-CREATE TABLE IF NOT EXISTS `groups` (
-    `name` VARCHAR(255) NOT NULL PRIMARY KEY,
-    `display_name` VARCHAR(255) NOT NULL DEFAULT 'User',
-    `priority` INT NOT NULL DEFAULT 0
-);
-
-/*
-    All the permissions that all the players of each group will have.
-*/
-CREATE TABLE IF NOT EXISTS `group_permissions` (
-    `group_name` VARCHAR(255) NOT NULL,
-    `permission` VARCHAR(255) NOT NULL,
-    PRIMARY KEY (`group_name`, `permission`),
-    FOREIGN KEY (`group_name`) REFERENCES `groups`(`name`) ON DELETE CASCADE
-);
-
-/*
     All the players that have joined the server at some point.
 */
 CREATE TABLE IF NOT EXISTS `players` (
     `identifier` VARCHAR(255) NOT NULL PRIMARY KEY,
-    `group` VARCHAR(255) NOT NULL DEFAULT `user` REFERENCES `groups`(`name`) ON DELETE SET DEFAULT,
     `last_seen` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-
-/*
-    Additional permissions, in case there are exeptions to the group permissions.
-*/
-CREATE TABLE IF NOT EXISTS `player_permissions` (
-    `identifier` VARCHAR(255) NOT NULL,
-    `permission` VARCHAR(255) NOT NULL,
-    PRIMARY KEY (`identifier`, `permission`),
-    FOREIGN KEY (`identifier`) REFERENCES `players`(`identifier`) ON DELETE CASCADE
 );
 
 /*

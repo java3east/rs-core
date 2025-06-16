@@ -70,9 +70,18 @@ function Test.assert(condition, message) end
 ---@field passed boolean
 Test = {}
 
+---@nodiscard
 ---@return boolean passed
 function Test.assert(condition, message) end
 
+---@nodiscard
+---@param a any the first value to compare
+---@param b any the second value to compare
+---@param message string the message to display if the assertion fails
+---@return boolean passed true if the values are equal, false otherwise
+function Test.assertEqual(a, b, message) end
+
+---@nodiscard
 ---@param value any
 ---@param values any[]
 ---@param message string
