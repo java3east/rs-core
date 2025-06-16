@@ -35,15 +35,33 @@ Test.new('CCharacter.load should use provided citizenId', function()
     return Test.assert(cCharacter.citizenId == id, "CCharacter.load should use the provided citizenId")
 end)
 
-Test.new('CCharacter get data should return correct data', function (self)
+Test.new('CCharacter:getData should return correct data', function (self)
     -- given
-    local cCharacter = CCharacter.new()
+    local cCharacter = CCharacter.new("A", "B", "01/01/2000", false)
 
     -- when
     local data = cCharacter:getData()
 
     -- then
-    return Test.assert(type(data.citizenId) == "string", "data.citizenId should be a string")
+    return Test.assert(type(data.citizenId) == "string", "data.citizenId should be a string") and
+              Test.assert(data.firstName == "A", "data.firstName should be 'A'") and
+              Test.assert(data.lastName == "B", "data.lastName should be 'B'") and
+              Test.assert(data.dateOfBirth == "01/01/2000", "data.dateOfBirth should be '01/01/2000'") and
+              Test.assert(data.gender == false, "data.gender should be false")
+end)
+
+Test.new('Character:isFemale should return correct value', function (self)
+    -- given
+    local cCharacter = CCharacter.new("A", "B", "01/01/2000", true)
+    local cCharacter2 = CCharacter.new("C", "D", "01/01/2000", false)
+
+    -- when
+    local isFemale = cCharacter:isFemale()
+    local isFemale2 = cCharacter2:isFemale()
+
+    -- then
+    return  Test.assert(isFemale == true, "Character:isFemale should return correct value") and
+            Test.assert(isFemale2 == false, "Character:isFemale should return correct value")
 end)
 
 Test.new('CCharacter:wake should set the character as active for the player', function()

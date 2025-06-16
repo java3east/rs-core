@@ -23,7 +23,7 @@ Test.new('cache get should call producer on nil value', function (self)
     return Test.assert(result == 'produced_value', "Cache get should return the produced value when the key does not exist")
 end)
 
-Test.new('cache get should return existing value', function (self)
+Test.new('cache:get should return existing value', function (self)
     -- given
     local cache = Cache()
     cache:set('test', 'existing_value')
@@ -37,7 +37,7 @@ Test.new('cache get should return existing value', function (self)
     return Test.assert(result == 'existing_value', "Cache get should return the existing value when the key exists")
 end)
 
-Test.new('cache should clear only 1 value when key is provided', function (self)
+Test.new('cache:clear should remove only 1 value when key is provided', function (self)
     -- given
     local cache = Cache()
     cache:set('test1', 'value1')
@@ -50,7 +50,7 @@ Test.new('cache should clear only 1 value when key is provided', function (self)
     return Test.assert(cache.data['test1'] == nil and cache.data['test2'] == 'value2', "Cache should clear only the specified key")
 end)
 
-Test.new('cache should clear all values when no key is provided', function (self)
+Test.new('cache:clear should remove all values when no key is provided', function (self)
     -- given
     local cache = Cache()
     cache:set('test1', 'value1')

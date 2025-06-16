@@ -2,6 +2,10 @@
 ---@class CCharacter
 ---@field possesedBy CPlayer? the player that is currently playing this character.
 ---@field citizenId string the unique id of the character.
+---@field firstName string the first name of the character.
+---@field lastName string the last name of the character.
+---@field dateOfBirth string the date of birth of the character in the format YYYY-MM
+---@field gender boolean false: male, true: female
 CCharacter = {}
 setmetatable(CCharacter, {
     __call = function(t, id)
@@ -15,6 +19,10 @@ CCharacter.__index = CCharacter
 
 ---@class CCharacter.Data
 ---@field citizenId string the unique id of the character.
+---@field firstName string the first name of the character.
+---@field lastName string the last name of the character.
+---@field dateOfBirth string the date of birth of the character in the format YYYY-MM
+---@field gender boolean true if the character is Female
 
 ---@type Cache
 local characters = Cache()
@@ -54,9 +62,13 @@ end
 ---This will generate a new citizenId for the character.
 ---@nodiscard
 ---@return CCharacter ccharacter the new core character object.
-function CCharacter.new()
+function CCharacter.new(firstName, lastName, dateOfBirth, gender)
     local id = Config.generateCharacterId()
     local cCharacter = CCharacter(id)
+    cCharacter.firstName = firstName
+    cCharacter.lastName = lastName
+    cCharacter.dateOfBirth = dateOfBirth
+    cCharacter.gender = gender
     return cCharacter
 end
 
@@ -80,8 +92,19 @@ end
 ---@return CCharacter.Data data the data of this character.
 function CCharacter:getData()
     return {
-        citizenId = self.citizenId
+        citizenId = self.citizenId,
+        firstName = self.firstName,
+        lastName = self.lastName,
+        dateOfBirth = self.dateOfBirth,
+        gender = self.gender
     }
+end
+
+---Checks if this character is a female.
+---@nodiscard
+---@return boolean isFemale true if the character is Female.
+function CCharacter:isFemale()
+    return self.gender
 end
 
 ---Marks this character as inactive.

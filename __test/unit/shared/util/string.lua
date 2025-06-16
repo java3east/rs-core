@@ -16,7 +16,7 @@ local charLists = {
     ['0'] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}
 }
 
-Test.new('StringUtils randomString should return a string with the correct format', function()
+Test.new('StringUtils.randomString should return a string with the correct format', function()
     -- when
     local randomString = StringUtils.randomString("aA0aA0")
 
@@ -30,7 +30,7 @@ Test.new('StringUtils randomString should return a string with the correct forma
         Test.assertOneOf(randomString:sub(6, 6), charLists["0"], "StringUtils randomString sixth character should be a digit for input 'aA0aA0'")
 end)
 
-Test.new('StringUtils split should return the correct parts', function()
+Test.new('StringUtils.split should return the correct parts', function()
     -- when
     local parts = StringUtils.split("hello.world.test", ".")
 
@@ -41,7 +41,7 @@ Test.new('StringUtils split should return the correct parts', function()
         Test.assert(parts[3] == "test", "Third part should be 'test'")
 end)
 
-Test.new('StringUtils format should replace keys with values', function()
+Test.new('StringUtils.format should replace keys with values', function()
     -- given
     local str = "Hello, {name}! You have {count} new messages."
     local args = {name = "Alice", count = 5}
