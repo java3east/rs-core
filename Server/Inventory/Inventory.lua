@@ -1,7 +1,7 @@
 ---@class Inventory
 ---@field id number the id of this inventory. This is the same as the database id.
 ---@field slots table<number, Inventory.ItemStack> the slots of this inventory, with their items.
----@field slotcount number the amount of slots in this inventory.
+---@field slotCount number the amount of slots in this inventory.
 ---@field maxWeight number the maximum weight this inventory can hold.
 Inventory = {}
 setmetatable(Inventory, {
@@ -95,7 +95,7 @@ end
 ---@param start number? the slot to start searching from, defaults to 1
 ---@return number slot the id of the next free slot, or -1 if no free slot was found
 function Inventory:findFreeSlot(start)
-    for i = (start or 1), self.slotcount do
+    for i = (start or 1), self.slotCount do
         if self.slots[i] == nil then
             return i
         end
@@ -177,3 +177,11 @@ function Inventory:remove(itemstack, quantity, ignoreMissing)
     return totalQuantity - quantity
 end
 
+function Inventory:__tostring()
+    return ("Inventory(id=%s, slotCount=%d, maxWeight=%.2f, slots=%s)"):format(
+        self.id,
+        self.slotCount,
+        self.maxWeight,
+        TableUtils.toString(self.slots)
+    )
+end

@@ -2,6 +2,7 @@ RFX_REQUIRE("__test/unit/shared/cache.lua")
 RFX_REQUIRE("__test/unit/shared/config.lua")
 RFX_REQUIRE("__test/unit/shared/util/string.lua")
 RFX_REQUIRE("__test/unit/shared/util/collection.lua")
+RFX_REQUIRE("__test/unit/shared/util/table.lua")
 
 RFX_REQUIRE("__test/unit/server/core.lua")
 

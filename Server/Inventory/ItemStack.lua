@@ -102,3 +102,7 @@ function ItemStack:__eq(other)
     end
     return true
 end
+
+function ItemStack:__tostring()
+    return string.format("ItemStack(id=%d, name=%s, quantity=%d, metadata=%s)", self.id, self.name, self.quantity, TableUtils.toString(self.metadata))
+end

@@ -76,3 +76,36 @@ Test.new('ItemStack:__eq() should compare two item stacks for equality', functio
     return Test.assert(itemStack1 == itemStack2, "ItemStacks with the same name and metadata should be equal") and
            Test.assert(itemStack1 ~= itemStack3, "ItemStacks with different quantities or metadata should not be equal")
 end)
+
+Test.new('ItemStack:delete() should mark the item stack for deletion', function (self)
+    -- given
+    local itemStack = ItemStack(1, "test_item", 10, { color = "red" })
+
+    -- when
+    itemStack:delete()
+
+    -- then
+    return Test.assertEqual(itemStack.state, 'delete', "ItemStack should be marked for deletion")
+end)
+
+Test.new('ItemStack:update() should mark the item stack for update', function (self)
+    -- given
+    local itemStack = ItemStack(1, "test_item", 10, { color = "red" })
+
+    -- when
+    itemStack:update()
+
+    -- then
+    return Test.assertEqual(itemStack.state, 'update', "ItemStack should be marked for update")
+end)
+
+Test.new('ItemStack:__tostring() should return a string representation of the item stack', function (self)
+    -- given
+    local itemStack = ItemStack(1, "test_item", 10, { color = "red" })
+
+    -- when
+    local str = tostring(itemStack)
+
+    -- then
+    return Test.assertEqual(str, "ItemStack(id=1, name=test_item, quantity=10, metadata={color=red})", "ItemStack:__tostring should return the correct string representation")
+end)
