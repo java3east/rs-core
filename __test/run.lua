@@ -8,6 +8,7 @@ RFX_REQUIRE("__test/unit/server/core.lua")
 RFX_REQUIRE("__test/unit/server/player/cplayer.lua")
 RFX_REQUIRE("__test/unit/server/player/character/ccharacter.lua")
 
+RFX_REQUIRE("__test/unit/server/inventory/itemstack.lua")
 RFX_REQUIRE("__test/unit/server/inventory/inventory.lua")
 
 RFX_REQUIRE("__test/unit/server/banking/account.lua")
