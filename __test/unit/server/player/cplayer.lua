@@ -84,7 +84,7 @@ Test.new("CPlayer:getIdentifier should return the player's identifier", function
 
     -- when
     local identifier = cPlayer:getIdentifier()
-    local expectedIdentifier = cPlayer.player:getIdentifier()
+    local expectedIdentifier = cPlayer.player:GetIdentifier()
 
     -- then
     return Test.assert(identifier == expectedIdentifier, "CPlayer:getIdentifier should return the player's identifier")

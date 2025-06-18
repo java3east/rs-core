@@ -48,3 +48,8 @@ function Player.Subscribe(event, callback) end
 ---@nodiscard
 ---@return string name the name of the player
 function Player:GetName() end
+
+---Returns the players identifier.
+---@nodiscard
+---@return string identifier the identifier of the player
+function Player:GetIdentifier() end

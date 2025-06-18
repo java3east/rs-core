@@ -37,8 +37,6 @@ setmetatable(CPlayer, {
         setmetatable(cPlayer, CPlayer)
         cPlayer.player = player
         cPlayer.data = Cache() --[[@as Cache]]
-        local identifier = player:getIdentifier()
-        cPlayer.data:set('identifier', identifier)
         return cPlayer
     end
 })
@@ -101,7 +99,9 @@ function CPlayer:isInCharacter()
 end
 
 function CPlayer:getIdentifier()
-    return self.data:get('identifier')
+    return self.data:get('identifier', function ()
+        return self.player:GetIdentifier()
+    end)
 end
 
 ---Checks if this player has the given group.

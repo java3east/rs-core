@@ -48,7 +48,8 @@ function Core.getPlayer(player)
     if isIdentifier then
         return playersByIdentifier[player]
     else
-        return playersByIdentifier[player:getIdentifier()]
+        ---@cast player Player
+        return playersByIdentifier[player:GetIdentifier()]
     end
 end
 

@@ -96,7 +96,7 @@ end)
 Test.new('Core.getPlayer should return the correct player', function (self)
     -- given
     local player = Player.__of(client)
-    local identifier = player:getIdentifier()
+    local identifier = player:GetIdentifier()
 
     -- when
     local cPlayer = Core.getPlayer(player)
