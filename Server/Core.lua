@@ -116,3 +116,7 @@ end
 
 Player.Subscribe('Spawn', onJoin)
 Player.Subscribe('Destroy', onQuit)
+
+Events.Subscribe('rs:core:player:new', function()
+  -- TODO: just to ignore warnings.
+end)
