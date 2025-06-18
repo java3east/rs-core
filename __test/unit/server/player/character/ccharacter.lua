@@ -102,3 +102,15 @@ Test.new('CCharacter:sleep should mark the character as inactive', function()
     -- then
     return Test.assert(cCharacter.possesedBy == nil, "CCharacter should be marked as inactive after sleep")
 end)
+
+Test.new('CCharacter:getBanking should return the banking account', function()
+    -- given
+    local cCharacter = CCharacter.new()
+
+    -- when
+    local banking = cCharacter:getBanking()
+
+    -- then
+    return Test.assert(banking ~= nil, "CCharacter:getBanking should return the banking account") and
+           Test.assert(banking.id == cCharacter.bid, "CCharacter:getBanking should return the correct banking account for the character")
+end)
