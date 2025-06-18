@@ -21,7 +21,8 @@ end
 ---This removes the player object from the player mappings and logs out the player.
 ---@param player Player the player that is quitting the server.
 local function onQuit(player)
-    local cPlayer = playersByIdentifier[player:getIdentifier()]
+    Log.info("Player {name} left the server.", {name = player:GetName()})
+    local cPlayer = playersByIdentifier[player:GetIdentifier()]
     if not cPlayer then return end
     cPlayer:logout()
     playersByIdentifier[cPlayer:getIdentifier()] = nil
@@ -114,3 +115,4 @@ function Core.registerItem(name, label, description, weight)
 end
 
 Player.Subscribe('Spawn', onJoin)
+Player.Subscribe('Destroy', onQuit)

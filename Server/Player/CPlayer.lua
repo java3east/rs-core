@@ -37,6 +37,10 @@ setmetatable(CPlayer, {
         setmetatable(cPlayer, CPlayer)
         cPlayer.player = player
         cPlayer.data = Cache() --[[@as Cache]]
+
+        -- we may need to add all the functions here since metatables might not work.
+        -- at least they didn't work in fivem when sharing this object with other scripts.
+
         return cPlayer
     end
 })
@@ -60,12 +64,10 @@ end
 ---@param player Player the helix player object
 ---@return CPlayer cPlayer the new CPlayer instance
 function CPlayer.new(player)
-    local cPlayer = CPlayer(player)
+    local cPlayer = CPlayer(player) --[[@as CPlayer]]
     create(cPlayer)
-
-    -- we may need to add all the functions here since metatables might not work.
-    -- at least they didn't work in fivem when sharing this object with other scripts.
-
+    cPlayer:trigger('rs:core:player:new')
+    Events.Call('rs:core:player:new', cPlayer)
     return cPlayer
 end
 
@@ -98,6 +100,9 @@ function CPlayer:isInCharacter()
     return self.activeCharacter ~= nil
 end
 
+---Returns the identifier of this player.
+---@nodiscard
+---@return string identifier the identifier of this player
 function CPlayer:getIdentifier()
     return self.data:get('identifier', function ()
         return self.player:GetIdentifier()

@@ -24,6 +24,10 @@ function SIMULATION_GET_SERVER(simulation) end
 ---@return RFX.Simulator simulator
 function SIMULATOR_CREATE(simulation, type) end
 
+---Destroys the given simulator.
+---@param simulator RFX.Simulator the simulator to destroy
+function SIMULATOR_DESTROY(simulator) end
+
 ---Loads the given resource.
 ---@nodiscard
 ---@param simulation RFX.Simulation

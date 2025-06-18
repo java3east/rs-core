@@ -115,3 +115,16 @@ Test.new('Player should be registered on spawn', function (self)
     -- then
     return Test.assert(sizeNow == size + 1, "Player should be registered on spawn")
 end)
+
+Test.new('Player should be unregistered on disconnect', function (self)
+    -- given
+    local client2 = SIMULATOR_CREATE(simulation, "CLIENT")
+    local size = #Core.getPlayers()
+
+    -- when
+    SIMULATOR_DESTROY(client2)
+    local sizeNow = #Core.getPlayers()
+
+    -- then
+    return Test.assert(sizeNow == size - 1, "Player should be unregistered on disconnect")
+end)
