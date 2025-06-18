@@ -3,7 +3,7 @@
 ---@field name string the name of the item
 ---@field quantity number the amount of the item in this stack
 ---@field metadata table<string, any> the metadata of the item
----@field state 'update'|'delete'|'none' the operation that should be performed on the item stack in the database.s
+---@field state 'update'|'delete'|'none' the operation that should be performed on the item stack in the database
 ItemStack = {}
 setmetatable(ItemStack, {
     __call = function(cls, id, name, quantity, metadata)
@@ -73,6 +73,10 @@ function ItemStack:getConstructor()
     return constructors[self.name]
 end
 
+---Returns the weight of this item stack.
+---@return number weight the weight of this item stack,
+---               calculated as the weight of the constructor
+---               multiplied by the quantity.
 function ItemStack:getWeight()
     local constructor = self:getConstructor()
     if constructor then

@@ -52,6 +52,10 @@ function Inventory.load(id, slots, maxWeight)
 end
 
 ---Creates a new inventory
+---@nodiscard
+---@param slots number the amount of slots in this inventory
+---@param maxWeight number the maximum weight this inventory can hold
+---@return Inventory inventory the newly created inventory
 function Inventory.new(slots, maxWeight)
     local id = createInventory()
     return Inventory(id, slots, maxWeight)
