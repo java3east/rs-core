@@ -69,6 +69,10 @@ end
 ---Creates a new core character object and saves it into the database.
 ---This will generate a new citizenId for the character.
 ---@nodiscard
+---@param firstName string the first name of the character.
+---@param lastName string the last name of the character.
+---@param dateOfBirth string the date of birth of the character in the format YYYY-MM
+---@param gender boolean true if this character is female
 ---@return CCharacter ccharacter the new core character object.
 function CCharacter.new(firstName, lastName, dateOfBirth, gender)
     local id = Config.generateCharacterId()
