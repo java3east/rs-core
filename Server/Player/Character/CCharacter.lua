@@ -6,12 +6,20 @@
 ---@field lastName string the last name of the character.
 ---@field dateOfBirth string the date of birth of the character in the format YYYY-MM
 ---@field gender boolean false: male, true: female
+---@field bid string the bid of the players primary banking account.
+---@field cache Cache chached data for this character.
 CCharacter = {}
 setmetatable(CCharacter, {
     __call = function(t, id)
         local cCharacter = {}
         setmetatable(cCharacter, CCharacter)
         cCharacter.citizenId = id
+        cCharacter.firstName = ''
+        cCharacter.lastName = ''
+        cCharacter.dateOfBirth = ''
+        cCharacter.gender = false
+        cCharacter.bid = ''
+        cCharacter.cache = Cache()
         return cCharacter
     end
 })
@@ -69,6 +77,8 @@ function CCharacter.new(firstName, lastName, dateOfBirth, gender)
     cCharacter.lastName = lastName
     cCharacter.dateOfBirth = dateOfBirth
     cCharacter.gender = gender
+    local account = Account.new()
+    cCharacter.bid = account.id
     return cCharacter
 end
 
@@ -91,6 +101,15 @@ end
 ---@return string name the full name of this character.
 function CCharacter:getName()
     return self.firstName .. ' ' .. self.lastName
+end
+
+---Returns the banking account of this character.
+---@nodiscard
+---@return Account banking the banking account of this character.
+function CCharacter:getBanking()
+    return self.cache:get('banking', function ()
+        return Account.load(self.bid)
+    end)
 end
 
 ---Returns the data of this character.
