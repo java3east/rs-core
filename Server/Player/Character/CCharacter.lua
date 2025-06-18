@@ -86,6 +86,13 @@ function CCharacter:wake(cPlayer)
     return true
 end
 
+---Returns the full name of this character.
+---@nodiscard
+---@return string name the full name of this character.
+function CCharacter:getName()
+    return self.firstName .. ' ' .. self.lastName
+end
+
 ---Returns the data of this character.
 ---This data can be used to be sent to the client.
 ---@nodiscard
