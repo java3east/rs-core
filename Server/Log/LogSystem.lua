@@ -104,14 +104,14 @@ function LogSystem.Filter:match(entry)
         return false
     end
 
-    local hasOne = self.tags == nil or #self.tags == 0
+    local tagFilterSatisfied = self.tags == nil or #self.tags == 0
     local tags = Collection(entry.tags) --[[@as Collection]]
     for _, tag in ipairs(self.tags) do
         if tags:contains(tag) then
-            hasOne = true
+            tagFilterSatisfied = true
         end
     end
-    if not hasOne then
+    if not tagFilterSatisfied then
         return false
     end
 
