@@ -1,6 +1,7 @@
 ---@diagnostic disable: undefined-field
 ---@class Server.Core
 Core = {}
+Core.LogSystem = LogSystem()
 
 ---@type table<string, CPlayer> the mapping of player identifiers to their corresponding CPlayer objects.
 local playersByIdentifier = {}
@@ -15,6 +16,15 @@ local function onJoin(player)
     end
     playersByIdentifier[cPlayer:getIdentifier()] = cPlayer
     Log.info("Player {name} joined with identifier {identifier}.", {name = player:GetName(), identifier = cPlayer:getIdentifier()})
+    Core.LogSystem:createEntry(
+        "rs-core",
+        {"join"},
+        StringUtils.format("Player {name} joined the server with identifier {identifier}.", {
+            name = player:GetName(),
+            identifier = cPlayer:getIdentifier()
+        }),
+        {identifier = cPlayer:getIdentifier()}
+    )
 end
 
 ---Called when a player quits the server.
@@ -22,6 +32,12 @@ end
 ---@param player Player the player that is quitting the server.
 local function onQuit(player)
     Log.info("Player {name} left the server.", {name = player:GetName()})
+    Core.LogSystem:createEntry(
+        "rs-core",
+        {"quit"},
+        StringUtils.format("Player {name} left the server.", {name = player:GetName()}),
+        {identifier = player:GetIdentifier()}
+    )
     local cPlayer = playersByIdentifier[player:GetIdentifier()]
     if not cPlayer then return end
     cPlayer:logout()
