@@ -1,4 +1,5 @@
 ---@class LogSystem
+---@field current table<LogSystem.LogEntry> the current log entries in the system
 LogSystem = {}
 setmetatable(LogSystem, {
     __call = function(self)
@@ -18,6 +19,7 @@ LogSystem.__index = LogSystem
 ---@field data table<string, string> additional data for the log entry (e.g. identifier, etc.)
 
 ---Adds the given entry to the log system. And saves it to the database.
+---@param system LogSystem the log system to add the entry to
 ---@param entry LogSystem.LogEntry
 local function addEntry(system, entry)
     -- TODO: Save the entry to the database
@@ -65,16 +67,28 @@ setmetatable(LogSystem.Filter, {
 })
 LogSystem.Filter.__index = LogSystem.Filter
 
-function LogSystem.Filter:tag(tags)
-    table.insert(self.tags, tags)
+---Adds a tag to the filter.
+---Only one filter must be present in the log entry for it to match.
+---@param tag string the tag to add
+---@return LogSystem.LogFilter self
+function LogSystem.Filter:tag(tag)
+    table.insert(self.tags, tag)
     return self
 end
 
+---Adds a required value to the filter.
+---All values must be present in the log entry data for it to match.
+---@param value string the value to add
+---@return LogSystem.LogFilter self
 function LogSystem.Filter:value(value)
     table.insert(self.values, value)
     return self
 end
 
+---Adds a key-value pair to the filter.
+---The log entry must contain this key with the specified value for it to match.
+---@param key string the key to add
+---@param value string the value to add
 function LogSystem.Filter:kvp(key, value)
     self.kvps[key] = value
     return self
