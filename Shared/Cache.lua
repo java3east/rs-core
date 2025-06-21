@@ -1,27 +1,25 @@
 ---@class Cache
 ---@field data table<any, any> the cache data
 Cache = {}
+setmetatable(Cache, {
+    __call = function(t)
+        local cache = {}
+        setmetatable(cache, Cache)
+        cache.data = {}
+        return cache
+    end
+})
 Cache.__index = Cache
-
----Creates a new cache object.
----@nodiscard
----@return Cache cache the new cache object
-function Cache.new()
-    local cache = {}
-    setmetatable(cache, Cache)
-    cache.data = {}
-    return cache
-end
 
 ---Returns the value associated with the given key in the cache.
 ---If the key does not exist, it will call the producer function
 ---to generate the value, store it in the cache, and return it.
 ---@nodiscard
 ---@param key any the key to retrieve the value for
----@param producer fun(): any the function to call to produce the value if it does not exist
+---@param producer? fun(): any the function to call to produce the value if it does not exist
 ---@return any value the value associated with the key
 function Cache:get(key, producer)
-    if self.data[key] == nil then
+    if self.data[key] == nil and producer then
         self.data[key] = producer()
     end
     return self.data[key]

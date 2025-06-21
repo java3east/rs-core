@@ -11,12 +11,22 @@
 ---@return RFX.Simulation simulation
 function SIMULATION_CREATE(type) end
 
+---Returns the server of the given simulation.
+---@nodiscard
+---@param simulation RFX.Simulation the simulation to get the server for
+---@return RFX.Simulator server the server simulator of the given simulation
+function SIMULATION_GET_SERVER(simulation) end
+
 ---Creates a new simulator of the given type for the specified simulation.
 ---@nodiscard
 ---@param simulation RFX.Simulation
 ---@param type string|'CLIENT'|'SERVER'
 ---@return RFX.Simulator simulator
 function SIMULATOR_CREATE(simulation, type) end
+
+---Destroys the given simulator.
+---@param simulator RFX.Simulator the simulator to destroy
+function SIMULATOR_DESTROY(simulator) end
 
 ---Loads the given resource.
 ---@nodiscard
@@ -62,27 +72,33 @@ function Test.assert(condition, message) end
 ---@class Test
 ---@field name string
 ---@field passed boolean
----@field given fun(self: Test)?
----@field when fun(self: Test)?
----@field thenAssert? fun(self: Test): boolean
 Test = {}
 
+---@nodiscard
 ---@return boolean passed
 function Test.assert(condition, message) end
 
-function Test.runAll() end
+---@nodiscard
+---@param a any the first value to compare
+---@param b any the second value to compare
+---@param message string the message to display if the assertion fails
+---@return boolean passed true if the values are equal, false otherwise
+function Test.assertEqual(a, b, message) end
+
+---@nodiscard
+---@param value any
+---@param values any[]
+---@param message string
+---@return boolean passed
+function Test.assertOneOf(value, values, message) end
+
+---@param moduleName string the name of the module the tests are for
+function Test.runAll(moduleName) end
 
 ---Creates a new test
 ---@param name string the name of the test
 ---@param fun fun(self: Test) : boolean the function to run for the test
 function Test.new(name, fun) end
-
-function Test:given() end
-
-function Test:when() end
-
----@return boolean passed
-function Test:thenAssert() end
 
 function Test:run() end
 
