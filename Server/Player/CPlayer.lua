@@ -79,16 +79,21 @@ function CPlayer:getActiveCharacter()
     return self.activeCharacter
 end
 
----Sets the character the player is currently playing.
+---Sets the character the player is currently playing. This will only work
+---if the character isn't currently used by another player.
 ---@param character CCharacter? the character to set as active for this player.
+---@return boolean success true if the character was successfully set as active for the player, false otherwise.
 function CPlayer:setActiveCharacter(character)
     if self.activeCharacter then
         self.activeCharacter:sleep()
         self.activeCharacter = nil
     end
-    if character and character:wake(self) then
+
+    if (character and character:wake(self)) or (not character) then
         self.activeCharacter = character
+        return true
     end
+    return false
 end
 
 ---Returns whether or not the player is currently in a character.
