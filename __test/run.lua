@@ -4,6 +4,8 @@ RFX_REQUIRE("__test/unit/shared/util/string.lua")
 RFX_REQUIRE("__test/unit/shared/util/collection.lua")
 RFX_REQUIRE("__test/unit/shared/util/table.lua")
 
+RFX_REQUIRE("__test/unit/server/log/logsystem.lua")
+
 RFX_REQUIRE("__test/unit/server/core.lua")
 
 RFX_REQUIRE("__test/unit/server/player/cplayer.lua")

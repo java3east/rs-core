@@ -8,6 +8,7 @@ local client = SIMULATOR_CREATE(simulation, "CLIENT")
 local env = ENVIRONMENT_GET(server, resource)
 local Player = ENVIRONMENT_GET_VAR(env, "Player")
 local Core = ENVIRONMENT_GET_VAR(env, "Core")
+local LogSystem = ENVIRONMENT_GET_VAR(env, "LogSystem")
 
 Test.new('Core should exist', function()
     return Test.assert(Core ~= nil, "Core should not be nil")
@@ -127,4 +128,16 @@ Test.new('Player should be unregistered on disconnect', function (self)
 
     -- then
     return Test.assert(sizeNow == size - 1, "Player should be unregistered on disconnect")
+end)
+
+Test.new('Player join should create a log entry', function (self)
+    -- given
+    local currentSize = #Core.LogSystem.current
+    local client2 = SIMULATOR_CREATE(simulation, "CLIENT")
+
+    -- when
+    local nowSize = #Core.LogSystem.current
+
+    --then
+    return Test.assert(nowSize == currentSize + 1, "Log entry should be created on player join")
 end)
