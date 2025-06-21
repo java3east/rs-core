@@ -7,7 +7,7 @@
 ---@field dateOfBirth string the date of birth of the character in the format YYYY-MM
 ---@field gender boolean false: male, true: female
 ---@field bid string the bid of the players primary banking account.
----@field cache Cache chached data for this character.
+---@field cache Cache cached data for this character.
 CCharacter = {}
 setmetatable(CCharacter, {
     __call = function(t, id)
